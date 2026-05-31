@@ -1,0 +1,199 @@
+﻿<Window x:Class="WPFHotel.Splash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFHotel"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Title="Splash" Height="450" Width="800">
+    <Window.Resources>
+        <!-- Animación fade in del contenido -->
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetName="MainCard"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" Duration="0:0:0.8"
+                             BeginTime="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetName="MainCard"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             From="30" To="0" Duration="0:0:0.8"
+                             BeginTime="0:0:0.1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <!-- Animación fade out al cerrar -->
+        <Storyboard x:Key="FadeOut" Completed="FadeOut_Completed">
+            <DoubleAnimation Storyboard.TargetName="MainCard"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1" To="0" Duration="0:0:0.6"/>
+            <DoubleAnimation Storyboard.TargetName="MainCard"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             From="0" To="-20" Duration="0:0:0.6">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <!-- Pulso del ícono -->
+        <Storyboard x:Key="Pulso" RepeatBehavior="Forever"
+                    AutoReverse="True">
+            <DoubleAnimation Storyboard.TargetName="IconCircle"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                             From="1" To="1.08" Duration="0:0:1.2">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="IconCircle"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                             From="1" To="1.08" Duration="0:0:1.2">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <!-- Barra de progreso animada -->
+        <Storyboard x:Key="Progreso" Completed="Progreso_Completed">
+            <DoubleAnimation Storyboard.TargetName="BarraProgreso"
+                             Storyboard.TargetProperty="Value"
+                             From="0" To="100" Duration="0:0:3.0">
+                <DoubleAnimation.EasingFunction>
+                    <QuarticEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+
+    <!-- Fondo con sombra suave -->
+    <Border x:Name="MainCard"
+            Opacity="0"
+            Background="#1E1E2E"
+            CornerRadius="20"
+            BorderBrush="#2563A8"
+            BorderThickness="1">
+        <Border.RenderTransform>
+            <TranslateTransform Y="30"/>
+        </Border.RenderTransform>
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" BlurRadius="40"
+                              ShadowDepth="0" Opacity="0.6"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Contenido principal -->
+            <StackPanel Grid.Row="0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                <!-- Ícono animado -->
+                <Border x:Name="IconCircle"
+                        Width="90" Height="90"
+                        CornerRadius="45"
+                        Background="#1A3A6A"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,24">
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"
+                                        CenterX="45" CenterY="45"/>
+                    </Border.RenderTransform>
+                    <Border.Effect>
+                        <DropShadowEffect Color="#2563A8" BlurRadius="20"
+                                          ShadowDepth="0" Opacity="0.8"/>
+                    </Border.Effect>
+                    <Viewbox Width="44" Height="44">
+                        <Canvas Width="24" Height="24">
+                            <Polygon Points="12,2 22,10 22,22 2,22 2,10"
+                                     Stroke="#60A5FA" StrokeThickness="1.5"
+                                     Fill="Transparent"/>
+                            <Rectangle Canvas.Left="9" Canvas.Top="14"
+                                       Width="6" Height="8"
+                                       Fill="#60A5FA"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+
+                <!-- Título -->
+                <TextBlock Text="Hotel Management"
+                           FontFamily="Segoe UI"
+                           FontSize="28" FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,6"/>
+
+                <!-- Subtítulo -->
+                <TextBlock Text="Sistema de gestión hotelera"
+                           FontFamily="Segoe UI"
+                           FontSize="13"
+                           Foreground="#9CA3AF"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,36"/>
+
+                <!-- Mensaje de estado -->
+                <TextBlock x:Name="TxtEstado"
+                           Text="Iniciando..."
+                           FontFamily="Segoe UI"
+                           FontSize="12"
+                           Foreground="#6B7280"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,12"/>
+
+                <!-- Barra de progreso -->
+                <Grid Width="300">
+                    <!-- Fondo barra -->
+                    <Border Height="4" CornerRadius="2"
+                            Background="#2A2A3E"/>
+                    <!-- Progreso -->
+                    <ProgressBar x:Name="BarraProgreso"
+                                 Height="4" Minimum="0" Maximum="100"
+                                 Value="0" Background="Transparent"
+                                 BorderThickness="0">
+                        <ProgressBar.Template>
+                            <ControlTemplate TargetType="ProgressBar">
+                                <Grid>
+                                    <Border Background="#2A2A3E" CornerRadius="2"/>
+                                    <Border x:Name="PART_Track"/>
+                                    <Border x:Name="PART_Indicator"
+                                            HorizontalAlignment="Left"
+                                            CornerRadius="2">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Color="#2563A8" Offset="0"/>
+                                                <GradientStop Color="#60A5FA" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </ProgressBar.Template>
+                    </ProgressBar>
+                </Grid>
+
+            </StackPanel>
+
+            <!-- Footer con versión -->
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,20">
+                <TextBlock Text="v1.0.0  •  "
+                           FontFamily="Segoe UI" FontSize="11"
+                           Foreground="#4B5563"/>
+                <TextBlock Text="WPFHotel"
+                           FontFamily="Segoe UI" FontSize="11"
+                           Foreground="#4B5563"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>
